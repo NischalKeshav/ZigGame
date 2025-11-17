@@ -1,2 +1,39 @@
+# Zig build artifacts
+zig-cache/
 .zig-cache/
+zig-out/
 
+# Build output
+/build/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+
+# Debug files
+*.pdb
+*.dSYM/
+
+# Raylib dependencies (if not using package manager)
+raylib/
+vendor/
+
+# OS specific
+Thumbs.db
+.DS_Store
+
+# Local configuration
+.env
+*.local

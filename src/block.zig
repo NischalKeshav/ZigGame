@@ -1,4 +1,5 @@
 const rl = @import("raylib");
+
 pub const Block = struct {
     x: i32 = 0,
     y: i32 = 0,
