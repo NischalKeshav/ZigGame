@@ -1,17 +1,11 @@
 const std = @import("std");
 const EntityClass = @import("Entity.zig");
 const rl = @import("raylib");
+const RenderSystem = @import("RenderSystem.zig");
+
 const Allocator = std.mem.Allocator;
 const GameObject = EntityClass.GameObject;
-
-pub fn render(Obj: GameObject) bool{
-    if (Obj.shape==EntityClass.Shapes.Rect){
-        _ = rl.drawRectangle(Obj.x,Obj.y,Obj.width,Obj.height,Obj.color);
-        return true;
-    }else{
-        return false;
-    }    
-}
+const render = RenderSystem.render;
 
 pub const EntityList = struct{
     allocator: Allocator,
