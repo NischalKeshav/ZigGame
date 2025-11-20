@@ -16,6 +16,9 @@ pub const GameObject= struct {
     fixedPos: bool = true,
     forceVector: [2]f32= .{0,0},
     velocityVector: [2]f32= .{0,0},
+    onSurface: bool = false,
+    elasticity:f32 = 1,
+    dragCoeff:f32 = 0.7,
     pub fn x(self:GameObject) f32{
         return self.posVector[0];
     }
@@ -27,5 +30,17 @@ pub const GameObject= struct {
     }
     pub fn yAsInt(self:GameObject) i32{
         return @intFromFloat(self.posVector[1]);
+    }
+    pub fn lowerBound(self:GameObject) f32{
+        return self.posVector[1] + @as(f32,@floatFromInt(self.height));
+    }
+    pub fn upperBound(self:GameObject) f32{
+        return self.posVector[1];
+    }
+    pub fn leftBound(self:GameObject) f32{
+        return self.posVector[0];
+    } 
+    pub fn rightBound(self:GameObject) f32{
+        return self.posVector[0] + @as(f32, @floatFromInt(self.width));
     }
 };

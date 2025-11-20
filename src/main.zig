@@ -4,7 +4,7 @@ const EntityClass = @import("Entity.zig");
 const grid = @import("2dGrid.zig");
 const EntityRender = @import("RenderEntity.zig");
 const PhysicsSystem = @import("PhysicsSystem.zig");
-
+const MovePlayerSystem = @import("PlayerMovement.zig");
 
 pub fn main() !void {
     const screenWidth = 1280;
@@ -13,14 +13,14 @@ pub fn main() !void {
     rl.initWindow(screenWidth, screenHeight, "ZigGame - Grid Example");
     defer rl.closeWindow();
     
-    rl.setTargetFPS(30);
+    rl.setTargetFPS(60);
     
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
     const Aalloc = arena.allocator();
     var eList : EntityRender.EntityList = EntityRender.EntityList.init(Aalloc);
 
-    const player = EntityClass.GameObject{ 
+    var player = EntityClass.GameObject{ 
         .posVector = .{100,200},
         .fixedPos = false
     };
@@ -30,16 +30,22 @@ pub fn main() !void {
         .width = 200,
         .fixedPos = true
     };
-    _ = try eList.AddObject(1, player);
-    _ = try eList.AddObject(2, block);
+    _ = try eList.AddObject(0, player);
+    _ = try eList.AddObject(1, block);
 
     while (!rl.windowShouldClose()) {
         rl.beginDrawing();
         defer rl.endDrawing();
-                
+        MovePlayerSystem.movement(&player); 
+        
         rl.clearBackground(rl.Color.beige);
-        grid.draw2dGrid(screenWidth,screenHeight,50);
+        //grid.draw2dGrid(screenWidth,screenHeight,50);
+        
         PhysicsSystem.physicsSim(&eList);
+        //MovePlayerSystem.movement(&eList.map.values()[0]); 
+        std.debug.print("playerxspeed:{}",.{eList.map.get(0).?.posVector[1]});
+
+
         _ = try eList.renderlist();
         rl.drawFPS(10, 10);
     }
